@@ -1,0 +1,109 @@
+erDiagram
+    artist ||--o{ album : "artist_id"
+    album ||--o{ track : "album_id"
+    genre ||--o{ track : "genre_id"
+    mediatype ||--o{ track : "media_type_id"
+    playlist ||--o{ playlisttrack : "playlist_id"
+    track ||--o{ playlisttrack : "track_id"
+    track ||--o{ invoiceline : "track_id"
+    invoice ||--o{ invoiceline : "invoice_id"
+    customer ||--o{ invoice : "customer_id"
+    employee ||--o{ customer : "support_rep_id (employee_id)"
+    employee ||--o{ employee : "reports_to (employee_id)"
+
+    artist {
+        int artist_id PK
+        string name
+    }
+
+    album {
+        int album_id PK
+        string title
+        int artist_id FK "references artist(artist_id)"
+    }
+
+    track {
+        int track_id PK
+        string name
+        int album_id FK "references album(album_id)"
+        int media_type_id FK "references mediatype(media_type_id)"
+        int genre_id FK "references genre(genre_id)"
+        string composer
+        int milliseconds
+        int bytes
+        decimal unit_price
+    }
+
+    genre {
+        int genre_id PK
+        string name
+    }
+
+    mediatype {
+        int media_type_id PK
+        string name
+    }
+
+    playlist {
+        int playlist_id PK
+        string name
+    }
+
+    playlisttrack {
+        int playlist_id PK_FK "references playlist(playlist_id)"
+        int track_id PK_FK "references track(track_id)"
+    }
+
+    customer {
+        int customer_id PK
+        string first_name
+        string last_name
+        string company
+        string address
+        string city
+        string state
+        string country
+        string postal_code
+        string phone
+        string fax
+        string email
+        int support_rep_id FK "references employee(employee_id)"
+    }
+
+    employee {
+        int employee_id PK
+        string last_name
+        string first_name
+        string title
+        int reports_to FK "references employee(employee_id)"
+        date birth_date
+        date hire_date
+        string address
+        string city
+        string state
+        string country
+        string postal_code
+        string phone
+        string fax
+        string email
+    }
+
+    invoice {
+        int invoice_id PK
+        int customer_id FK "references customer(customer_id)"
+        date invoice_date
+        string billing_address
+        string billing_city
+        string billing_state
+        string billing_country
+        string billing_postal_code
+        decimal total
+    }
+
+    invoiceline {
+        int invoice_line_id PK
+        int invoice_id FK "references invoice(invoice_id)"
+        int track_id FK "references track(track_id)"
+        decimal unit_price
+        int quantity
+    }
