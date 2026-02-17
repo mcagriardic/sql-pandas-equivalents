@@ -2,11 +2,11 @@ erDiagram
     artist ||--o{ album : "artist_id"
     album ||--o{ track : "album_id"
     genre ||--o{ track : "genre_id"
-    mediatype ||--o{ track : "media_type_id"
-    playlist ||--o{ playlisttrack : "playlist_id"
-    track ||--o{ playlisttrack : "track_id"
-    track ||--o{ invoiceline : "track_id"
-    invoice ||--o{ invoiceline : "invoice_id"
+    media_type ||--o{ track : "media_type_id"
+    playlist ||--o{ playlist_track : "playlist_id"
+    track ||--o{ playlist_track : "track_id"
+    track ||--o{ invoice_line : "track_id"
+    invoice ||--o{ invoice_line : "invoice_id"
     customer ||--o{ invoice : "customer_id"
     employee ||--o{ customer : "support_rep_id (employee_id)"
     employee ||--o{ employee : "reports_to (employee_id)"
@@ -26,7 +26,7 @@ erDiagram
         int track_id PK
         string name
         int album_id FK "references album(album_id)"
-        int media_type_id FK "references mediatype(media_type_id)"
+        int media_type_id FK "references media_type(media_type_id)"
         int genre_id FK "references genre(genre_id)"
         string composer
         int milliseconds
@@ -39,7 +39,7 @@ erDiagram
         string name
     }
 
-    mediatype {
+    media_type {
         int media_type_id PK
         string name
     }
@@ -49,9 +49,9 @@ erDiagram
         string name
     }
 
-    playlisttrack {
-        int playlist_id PK_FK "references playlist(playlist_id)"
-        int track_id PK_FK "references track(track_id)"
+    playlist_track {
+        int playlist_id PK
+        int track_id PK
     }
 
     customer {
@@ -100,7 +100,7 @@ erDiagram
         decimal total
     }
 
-    invoiceline {
+    invoice_line {
         int invoice_line_id PK
         int invoice_id FK "references invoice(invoice_id)"
         int track_id FK "references track(track_id)"
